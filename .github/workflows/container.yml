@@ -6,6 +6,10 @@ on:
       - master
     paths:
       - 'container/**'
+      
+     # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+    
 
 defaults:
   run:
@@ -19,6 +23,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run build
+      - name: ACTIONS_ALLOW_UNSECURE_COMMANDS
+        run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB_ENV
 
       - uses: chrislennon/action-aws-cli@v1.1
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest

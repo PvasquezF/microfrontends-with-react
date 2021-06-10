@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./app";
 import { createMemoryHistory, createBrowserHistory } from "history";
+import App from "./app";
+
 // Mount function to start up the app
 const mount = (el, { onNavigate, defaultHistory, initialPath }) => {
   const history =
@@ -9,11 +10,13 @@ const mount = (el, { onNavigate, defaultHistory, initialPath }) => {
     createMemoryHistory({
       initialEntries: [initialPath],
     });
+
   if (onNavigate) {
     history.listen(onNavigate);
   }
+
   ReactDOM.render(<App history={history} />, el);
-  
+
   return {
     onParentNavigate({ pathname: nextPathname }) {
       const { pathname } = history.location;
@@ -25,10 +28,11 @@ const mount = (el, { onNavigate, defaultHistory, initialPath }) => {
   };
 };
 
-// If we are in dev and in isolation,
-// call mount inmediately
+// If we are in development and in isolation,
+// call mount immediately
 if (process.env.NODE_ENV === "development") {
-  const devRoot = document.querySelector("._marketing-dev-root");
+  const devRoot = document.querySelector("#_auth-dev-root");
+
   if (devRoot) {
     mount(devRoot, { defaultHistory: createBrowserHistory() });
   }
